@@ -32,8 +32,7 @@ exports.shouldStreamDocumentsUsingTheReadStreamPauseFunction = function(configur
 
             // For each data item
             stream.on("data", function(item) {
-              // Check if stream is paused
-              test.equal(false, stream.paused);
+
               // Pause stream
               stream.pause();
               // Restart the stream after 1 miliscecond
@@ -100,25 +99,20 @@ exports.shouldStreamDocumentsUsingTheReadStreamResumeFunction = function(configu
 
             // For each data item
             stream.on("data", function(item) {
-              // Check if stream is paused
-              test.equal(false, stream.paused);
+ 
               // Pause stream
               stream.pause();
 
               fileBuffer += item.toString('utf8');
 
-              // Restart the stream after 1 miliscecond
+              // Restart the stream after 1 millisecond
               setTimeout(function() {
                 stream.resume();
               }, 100);
             });
 
-            // For each data item
-            stream.on("end", function(item) {
-            });
-
             // When the stream is done
-            stream.on("close", function() {
+            stream.on("end", function() {
               // Have we received the same file back?
               test.equal(fileBuffer, fileBody);
               db.close();
@@ -174,7 +168,7 @@ exports.shouldStreamDocumentsUsingTheReadStreamDestroyFunction = function(config
             });
 
             // When the stream is done
-            stream.on("close", function() {
+            stream.on("end", function() {
               db.close();
               test.done();          
             });        
